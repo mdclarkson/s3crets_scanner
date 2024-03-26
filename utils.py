@@ -12,6 +12,7 @@ import re
 from logger_config import logger_conf
 import shutil
 import sys
+from security import safe_command
 
 # Logger instance
 logger_conf()
@@ -129,7 +130,7 @@ def run_trufflehog(bucket, file):
     try:
         all_findings = list()
         command = ["trufflehog3", "downloads", "--format", "json", "-r", "rules.yml"]
-        t = subprocess.Popen(command, stdout=subprocess.PIPE)
+        t = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE)
         output = t.stdout.read().decode("UTF-8")
         json_data = json.loads(output)
         for i in range(len(json_data)):
