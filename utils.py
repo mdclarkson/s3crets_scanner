@@ -5,13 +5,12 @@ from datetime import datetime, timedelta
 import glob
 import os
 
-import requests
-
 import csv
 import re
 from logger_config import logger_conf
 import shutil
 import sys
+from security import safe_requests
 
 # Logger instance
 logger_conf()
@@ -179,8 +178,7 @@ def prerequisite_checks(*args):
 
 def download_content(bucket_name, file_name, download_name):
     try:
-        r = requests.get(
-            f'https://{bucket_name}.s3.amazonaws.com/{file_name}')
+        r = safe_requests.get(f'https://{bucket_name}.s3.amazonaws.com/{file_name}')
         text_file = json.dumps(r.json())
         with open(f'{os.getcwd()}/downloads/{download_name}', 'w') as f:
             f.write(text_file)
