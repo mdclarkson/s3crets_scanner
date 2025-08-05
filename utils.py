@@ -180,7 +180,7 @@ def prerequisite_checks(*args):
 def download_content(bucket_name, file_name, download_name):
     try:
         r = requests.get(
-            f'https://{bucket_name}.s3.amazonaws.com/{file_name}')
+            f'https://{bucket_name}.s3.amazonaws.com/{file_name}', timeout=60)
         text_file = json.dumps(r.json())
         with open(f'{os.getcwd()}/downloads/{download_name}', 'w') as f:
             f.write(text_file)
